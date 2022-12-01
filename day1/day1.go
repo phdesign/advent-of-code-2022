@@ -8,23 +8,24 @@ import (
 	"strings"
 )
 
-type elf struct {
-	totalCalories int
-	food          []int
-}
-
-func newElf(food []int) *elf {
-	return &elf{totalCalories: maxInts(food), food: food}
-}
-
-func maxInts(ints []int) int {
+func maxOfInts(ints []int) (int, int) {
 	max := ints[0]
-	for _, i := range ints {
-		if i > max {
-			max = i
+	maxPos := 0
+	for i, val := range ints {
+		if val > max {
+			max = val
+			maxPos = i
 		}
 	}
-	return max
+	return max, maxPos
+}
+
+func sumInts(ints []int) int {
+	sum := 0
+	for _, i := range ints {
+		sum += i
+	}
+	return sum
 }
 
 func stringsToInts(strings []string) []int {
@@ -32,10 +33,9 @@ func stringsToInts(strings []string) []int {
 
 	for _, s := range strings {
 		j, err := strconv.Atoi(s)
-		if err != nil {
-			panic(err)
+		if err == nil {
+			result = append(result, j)
 		}
-		result = append(result, j)
 	}
 	return result
 }
@@ -43,8 +43,11 @@ func stringsToInts(strings []string) []int {
 func parseInput(input string) [][]int {
 	var result = [][]int{}
 	groups := strings.Split(input, "\n\n")
+	fmt.Printf("Found %d groups\n", len(groups))
 	for _, group := range groups {
-		result = append(result, stringsToInts(strings.Split(group, "\n")))
+		lines := strings.Split(group, "\n")
+		fmt.Printf("Found %d lines\n", len(lines))
+		result = append(result, stringsToInts(lines))
 	}
 	return result
 }
@@ -57,18 +60,22 @@ func readInput(filename string) string {
 	return string(data)
 }
 
-func getElves(groups [][]int) []*elf {
-	var elves = []*elf{}
+func sumItems(groups [][]int) []int {
+	var result = []int{}
 	for _, group := range groups {
-		elves = append(elves, newElf(group))
+		result = append(result, sumInts(group))
 	}
-	return elves
+	return result
 }
 
 func main() {
-	input := readInput(flag.Arg(0))
-	groups := parseInput(input)
-	getElves(groups)
-	//maxCalories := maxInts(elves)
-	fmt.Println("done")
+	flag.Parse()
+	filename := flag.Arg(0)
+	fmt.Printf("Reading input from %s\n", filename)
+	input := readInput(filename)
+	fmt.Printf("Read input %s\n", input[:10])
+	itemsByElf := parseInput(input)
+	caloriesPerElf := sumItems(itemsByElf)
+	maxCalories, maxElfID := maxOfInts(caloriesPerElf)
+	fmt.Printf("Elf %d has the most calories: %d\n", maxElfID, maxCalories)
 }

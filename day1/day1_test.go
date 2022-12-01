@@ -30,3 +30,23 @@ func TestParseInput(t *testing.T) {
 		require.Equal(t, expected, actual)
 	})
 }
+
+func TestSumItems(t *testing.T) {
+	t.Run("should return the sum of the items in each group", func(t *testing.T) {
+		input := [][]int{{1, 2}, {3, 4}, {5}}
+		expected := []int{3, 7, 5}
+		actual := sumItems(input)
+		require.Equal(t, expected, actual)
+	})
+}
+
+func TestMaxOfInts(t *testing.T) {
+	t.Run("should return the max and its position", func(t *testing.T) {
+		input := []int{1, 2, 3, 4}
+		expectedMax := 4
+		expectedPos := 3
+		actualMax, actualPos := maxOfInts(input)
+		require.Equal(t, expectedMax, actualMax)
+		require.Equal(t, expectedPos, actualPos)
+	})
+}
