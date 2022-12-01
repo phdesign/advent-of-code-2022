@@ -1,4 +1,4 @@
-module github.com/phdesign/advent-of-code-2022
+module github.com/phdesign/advent-of-code-2022/day1
 
 go 1.16
 

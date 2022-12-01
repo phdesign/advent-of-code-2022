@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -18,6 +19,16 @@ func maxOfInts(ints []int) (int, int) {
 		}
 	}
 	return max, maxPos
+}
+
+func maxesOfInts(ints []int, num int) []int {
+	if len(ints) < num {
+		panic("not enough ints")
+	}
+	var result = make([]int, num)
+	sort.Sort(sort.Reverse(sort.IntSlice(ints)))
+	copy(result, ints[:num])
+	return result
 }
 
 func sumInts(ints []int) int {
@@ -74,8 +85,13 @@ func main() {
 	fmt.Printf("Reading input from %s\n", filename)
 	input := readInput(filename)
 	fmt.Printf("Read input %s\n", input[:10])
+
 	itemsByElf := parseInput(input)
 	caloriesPerElf := sumItems(itemsByElf)
 	maxCalories, maxElfID := maxOfInts(caloriesPerElf)
 	fmt.Printf("Elf %d has the most calories: %d\n", maxElfID, maxCalories)
+
+	maxTop3 := maxesOfInts(caloriesPerElf, 3)
+	sumMaxTop3 := sumInts(maxTop3)
+	fmt.Printf("The sum of the top 3 elves is %d\n", sumMaxTop3)
 }

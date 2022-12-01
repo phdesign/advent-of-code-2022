@@ -50,3 +50,12 @@ func TestMaxOfInts(t *testing.T) {
 		require.Equal(t, expectedPos, actualPos)
 	})
 }
+
+func TestMaxesOfInts(t *testing.T) {
+	t.Run("should return the maxes of the ints", func(t *testing.T) {
+		input := []int{1, 2, 3, 4}
+		expected := []int{4, 3}
+		actual := maxesOfInts(input, 2)
+		require.Equal(t, expected, actual)
+	})
+}
