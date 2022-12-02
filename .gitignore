@@ -16,3 +16,6 @@
 
 # Compiled binaries
 bin/
+
+# Python
+__pycache__/
