@@ -19,3 +19,7 @@ bin/
 
 # Python
 __pycache__/
+.venv/
+
+# IDE
+.vim
