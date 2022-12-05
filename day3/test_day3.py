@@ -24,6 +24,31 @@ class TestDay2(unittest.TestCase):
         self.assertEqual(day3.priority("A"), 27)
         self.assertEqual(day3.priority("Z"), 52)
 
+    def test_find_badge(self):
+        group = [
+            "vJrwpWtwJgWrhcsFMMfFFhFp",
+            "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",
+            "PmmdzqPrVvPwwTWBwg",
+        ]
+        self.assertEqual(day3.find_badge(group), "r")
+        group = [
+            "wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn",
+            "ttgJtRGJQctTZtZT",
+            "CrZsJsPPZsGzwwsLwLmpwMDw",
+        ]
+        self.assertEqual(day3.find_badge(group), "Z")
+
+    def test_badge_priority_sum(self):
+        lines = [
+            "vJrwpWtwJgWrhcsFMMfFFhFp",
+            "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",
+            "PmmdzqPrVvPwwTWBwg",
+            "wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn",
+            "ttgJtRGJQctTZtZT",
+            "CrZsJsPPZsGzwwsLwLmpwMDw",
+        ]
+        self.assertEqual(day3.badge_priority_sum(lines), 70)
+
 
 if __name__ == "__main__":
     unittest.main()

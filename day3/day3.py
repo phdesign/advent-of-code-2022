@@ -6,6 +6,11 @@ def find_duplicate(line):
     return next((c for c in first_half if c in second_half), None)
 
 
+def find_badge(group):
+    sets = (set(line) for line in group)
+    return list(set.intersection(*sets))[0]
+
+
 def priority(char):
     return (
         ord(char) - ord("A") + 27
@@ -19,11 +24,17 @@ def priority_sum(lines):
     return sum(priority(item) for item in duplicates if item)
 
 
+def badge_priority_sum(lines):
+    badges = (find_badge(lines[i : i + 3]) for i in range(0, len(lines), 3))
+    return sum(priority(item) for item in badges if item)
+
+
 def main():
     filename = sys.argv[1]
     with open(filename) as f:
         lines = f.read().splitlines()
-    result = priority_sum(lines)
+    # result = priority_sum(lines)
+    result = badge_priority_sum(lines)
     print(result)
 
 
