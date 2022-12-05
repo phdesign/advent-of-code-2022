@@ -2,7 +2,7 @@ import unittest
 import day3
 
 
-class TestDay2(unittest.TestCase):
+class TestDay3(unittest.TestCase):
     def test_priority_sum(self):
         lines = [
             "vJrwpWtwJgWrhcsFMMfFFhFp",
