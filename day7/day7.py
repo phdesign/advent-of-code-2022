@@ -12,8 +12,8 @@ class File(FileSystemObject):
         self.size = size
         super().__init__(name, parent)
 
-    def print(self):
-        return [f"- {self.name} (file, size={self.size})"]
+    def tostring(self):
+        return f"- {self.name} (file, size={self.size})\n"
 
 
 class Directory(FileSystemObject):
@@ -21,11 +21,11 @@ class Directory(FileSystemObject):
         super().__init__(name, parent)
         self.children = []
 
-    def print(self):
-        children = [child.print() for child in self.children]
-        return [f"- {self.name} (dir)"] + [
-            "  " + child for flatten in children for child in flatten
-        ]
+    def tostring(self):
+        children = (child.tostring().splitlines() for child in self.children)
+        return f"- {self.name} (dir)\n" + "\n".join(
+            ["  " + child for sublist in children for child in sublist]
+        )
 
 
 def build_tree(lines):
@@ -33,7 +33,6 @@ def build_tree(lines):
     current = root
 
     for line in lines:
-        print(line)
         if line.startswith("$ cd"):
             path = line[5:]
             if path == "/":

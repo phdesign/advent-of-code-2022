@@ -46,10 +46,8 @@ $ ls
     - j (file, size=4060174)
     - d.log (file, size=8033020)
     - d.ext (file, size=5626152)
-    - k (file, size=7214296)
-"""
-        print("\n".join(tree.print()))
-        self.assertEqual(tree.print(), expected)
+    - k (file, size=7214296)"""
+        self.assertEqual(tree.tostring(), expected)
 
 
 if __name__ == "__main__":
