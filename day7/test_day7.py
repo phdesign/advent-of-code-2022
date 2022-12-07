@@ -1,13 +1,8 @@
 import unittest
-from day7 import sum_dir_size, build_tree
+from day7 import sum_small_dirs, build_tree, calculate_size
 
 
-class TestSuite(unittest.TestCase):
-    def test_sum_dir_size(self):
-        pass
-
-    def test_build_tree(self):
-        input = """
+INPUT = """
 $ cd /
 $ ls
 dir a
@@ -32,7 +27,16 @@ $ ls
 5626152 d.ext
 7214296 k
 """
-        tree = build_tree(input.splitlines())
+
+
+class TestSuite(unittest.TestCase):
+    def test_sum_small_dirs(self):
+        tree = build_tree(INPUT.splitlines())
+        calculate_size(tree)
+        self.assertEqual(sum_small_dirs(tree), 95437)
+
+    def test_build_tree(self):
+        tree = build_tree(INPUT.splitlines())
         expected = """- / (dir)
   - a (dir)
     - e (dir)
@@ -48,6 +52,11 @@ $ ls
     - d.ext (file, size=5626152)
     - k (file, size=7214296)"""
         self.assertEqual(tree.tostring(), expected)
+
+    def test_calculate_size(self):
+        tree = build_tree(INPUT.splitlines())
+        calculate_size(tree)
+        self.assertEqual(tree.size, 48381165)
 
 
 if __name__ == "__main__":
