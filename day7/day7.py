@@ -1,4 +1,8 @@
 import sys
+from itertools import chain
+
+TOTAL_SPACE = 70000000
+REQUIRED_SPACE = 30000000
 
 
 class FileSystemObject:
@@ -75,16 +79,37 @@ def sum_small_dirs(branch):
     return branch.size + child_sum if branch.size <= 100000 else child_sum
 
 
-def run(input):
+def get_dir_sizes(branch):
+    return [branch.size] + list(
+        chain.from_iterable(
+            get_dir_sizes(d)
+            for d in branch.children
+            if isinstance(d, Directory)
+        )
+    )
+
+
+def closest_size(tree, size):
+    return next(iter(sorted(s for s in get_dir_sizes(tree) if s > size)), None)
+
+
+def part1(input):
     tree = build_tree(input.splitlines())
     calculate_size(tree)
     return sum_small_dirs(tree)
 
 
+def part2(input):
+    tree = build_tree(input.splitlines())
+    calculate_size(tree)
+    needed_space = REQUIRED_SPACE - (TOTAL_SPACE - tree.size)
+    return closest_size(tree, needed_space)
+
+
 def main():
     filename = sys.argv[1]
     with open(filename) as f:
-        print(run(f.read()))
+        print(part2(f.read()))
 
 
 if __name__ == "__main__":

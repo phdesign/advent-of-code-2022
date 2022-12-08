@@ -1,5 +1,13 @@
 import unittest
-from day7 import sum_small_dirs, build_tree, calculate_size
+from day7 import (
+    sum_small_dirs,
+    build_tree,
+    calculate_size,
+    closest_size,
+    get_dir_sizes,
+    part2,
+    Directory,
+)
 
 
 INPUT = """
@@ -57,6 +65,20 @@ class TestSuite(unittest.TestCase):
         tree = build_tree(INPUT.splitlines())
         calculate_size(tree)
         self.assertEqual(tree.size, 48381165)
+
+    def test_get_dir_sizes(self):
+        tree = build_tree(INPUT.splitlines())
+        calculate_size(tree)
+        self.assertCountEqual(
+            get_dir_sizes(tree), [584, 94853, 24933642, 48381165]
+        )
+
+    def test_closest_child(self):
+        self.assertEqual(part2(INPUT), 24933642)
+
+        tree = Directory("/", None)
+        tree.size = 12
+        self.assertEqual(closest_size(tree, 10), 12)
 
 
 if __name__ == "__main__":
